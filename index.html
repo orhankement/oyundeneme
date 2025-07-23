@@ -1,586 +1,75 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kement Studios - Oyun Geliştirme Stüdyosu</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: white;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        header {
-            background: #383838;
-            backdrop-filter: blur(10px);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-        }
-
-        .logo {
-            font-size: 2rem;
-            font-weight: bold;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-        }
-
-        .nav-links a:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="20" cy="60" r="1" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            animation: float 20s ease-in-out infinite;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero h1 {
-            font-size: 4rem;
-            color: white;
-            margin-bottom: 1rem;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
-            animation: fadeInUp 1s ease-out;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 2rem;
-            animation: fadeInUp 1s ease-out 0.3s both;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: linear-gradient(45deg, #333333, #555555);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(51, 51, 51, 0.3);
-            animation: fadeInUp 1s ease-out 0.6s both;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(51, 51, 51, 0.4);
-        }
-
-        /* Sections */
-        section {
-            padding: 5rem 0;
-            background: white;
-            margin: 2rem 0;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        section h2 {
-            text-align: center;
-            font-size: 3rem;
-            margin-bottom: 3rem;
-            color: #333;
-            position: relative;
-        }
-
-        section h2::after {
-            content: '';
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(45deg, #333333, #555555);
-            display: block;
-            margin: 1rem auto;
-            border-radius: 2px;
-        }
-
-        /* About Section */
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .about-text {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            color: #555;
-        }
-
-        .about-image {
-            text-align: center;
-        }
-
-        .about-placeholder {
-            width: 400px;
-            height: 300px;
-            background: linear-gradient(135deg, #333333, #555555);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-            margin: 0 auto;
-        }
-
-        /* Team Section */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .team-card {
-            background: linear-gradient(135deg, #333333 0%, #555555 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
-
-        .team-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-        }
-
-        .team-avatar {
-            width: 120px;
-            height: 120px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50%;
-            margin: 0 auto 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-        }
-
-        /* Games Section */
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .game-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-
-        .game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-        }
-
-        .game-image {
-            height: 200px;
-            background: linear-gradient(45deg, #333333, #555555);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-        }
-
-        .game-info {
-            padding: 1.5rem;
-        }
-
-        .game-info h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: #333;
-        }
-
-        .game-info p {
-            color: #666;
-            line-height: 1.6;
-        }
-
-        /* Footer */
-        footer {
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 3rem 0;
-            text-align: center;
-            margin-top: 3rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h3 {
-            margin-bottom: 1rem;
-            color: #ff0000;
-        }
-
-        .footer-section p {
-            margin-bottom: 0.5rem;
-            color: rgba(255,255,255,0.8);
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-links a {
-            color: white;
-            font-size: 1.5rem;
-            padding: 0.5rem;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.1);
-            transition: all 0.3s ease;
-        }
-
-        .social-links a:hover {
-            background: #333333;
-            transform: scale(1.1);
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero p {
-                font-size: 1.2rem;
-            }
-            
-            .about-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            
-            section h2 {
-                font-size: 2rem;
-            }
-        }
-
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Scroll animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kement Studios</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <header>
-        <nav class="container">
-            <div class="logo">Kement Studios</div>
-            <ul class="nav-links">
-                <li><a href="#home">Ana Sayfa</a></li>
-                <li><a href="#about">Hakkımızda</a></li>
-                <li><a href="#team">Ekibimiz</a></li>
-                <li><a href="#games">Oyunlarımız</a></li>
-                <li><a href="#contact">İletişim</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Kement Studios</h1>
-            <p>En iyi mobil oyunlar</p>
-            <a href="#games" class="cta-button">Oyunlarımızı Keşfedin</a>
-        </div>
-    </section>
-
+  <header>
     <div class="container">
-        <section id="about" class="fade-in">
-            <h2>Hakkımızda</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>Kement Studios, oyun endüstrisinde yenilikçi ve etkileyici deneyimler yaratmaya odaklanan bir oyun geliştirme stüdyosudur. Kurulduğumuz günden bu yana, oyuncuların hayal dünyasını genişleten, duygusal bağ kurabileceği ve unutamayacağı oyun deneyimleri sunmayı hedefliyoruz.</p>
-                    
-                    <p>Ekibimiz, farklı disiplinlerden gelen yetenekli ve tutkulu geliştiricilerden oluşmaktadır. Her birimiz, oyun geliştirmenin bir sanat olduğuna inanıyor ve her projemizde bu yaklaşımı benimsiyor. Teknolojinin sınırlarını zorlayarak, görsel ve işitsel olarak büyüleyici, oynanış açısından da tatmin edici oyunlar üretmeye odaklanıyoruz.</p>
-                    
-                    <p>Misyonumuz, global oyun pazarında Türkiye'yi temsil eden, kaliteli ve özgün oyunlar geliştirmektir. Vizyonumuz ise, oyun endüstrisinin öncü stüdyolarından biri haline gelerek, dünya çapında tanınan bir marka olmaktır.</p>
-                </div>
-                <div class="about-image">
-                    <div class="about-placeholder">
-                        🎮 Oyun Geliştirme Stüdyosu
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="team" class="fade-in">
-            <h2>Ekibimiz</h2>
-            <div class="team-grid">
-                <div class="team-card">
-                    <div class="team-avatar">👨‍💼</div>
-                    <h3>Orhan Kement</h3>
-                    <p><strong>Kurucu</strong></p>
-                    <p>Kement Studios'un kurucusu ve vizyoneri. Oyun endüstrisindeki deneyimi ve liderlik becerileri ile stüdyomuzu başarıya taşıyor.</p>
-                </div>
-                <div class="team-card">
-                    <div class="team-avatar">🎮</div>
-                    <h3>Can Göksu</h3>
-                    <p><strong>3D Artist</strong></p>
-                    <p>3D modelleme ve animasyon konularında uzman. Oyunlarımızın görsel kalitesini artıran yaratıcı tasarımlar üretiyor.</p>
-                </div>
-                <div class="team-card">
-                    <div class="team-avatar">🎨</div>
-                    <h3>Nazlı Türkoğlu</h3>
-                    <p><strong>2D Artist</strong></p>
-                    <p>2D grafik tasarım ve konsept sanatı alanında yetenekli. Oyunlarımızın benzersiz sanatsal kimliğini oluşturuyor.</p>
-                </div>
-                <div class="team-card">
-                    <div class="team-avatar">👨‍💻</div>
-                    <h3>Oktay Bayraktar</h3>
-                    <p><strong>Game Developer</strong></p>
-                    <p>Oyun geliştirme ve programlama konularında uzman. Fikirlerimizi gerçek oyun deneyimlerine dönüştürüyor.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="games" class="fade-in">
-            <h2>Oyunlarımız</h2>
-            <div class="games-grid">
-                <div class="game-card">
-                    <div class="game-image">🍄 Platform Oyunu</div>
-                    <div class="game-info">
-                        <h3>Super Mario</h3>
-                        <p>Nostalji isteyenler için yeniden tasarlandı.</p>
-                    </div>
-                </div>
-                <div class="game-card">
-                    <div class="game-image">⚽ Spor Oyunu</div>
-                    <div class="game-info">
-                        <h3>Penaltı Atmaca</h3>
-                        <p>Gerçekçi fizik motoru ile penaltı atma deneyimi. Çeşitli stadyumlar, farklı zorluk seviyeleri ve rekabetçi mod ile futbol severlerin gözdesi.</p>
-                    </div>
-                </div>
-                <div class="game-card">
-                    <div class="game-image">🧠 Bilgi Oyunu</div>
-                    <div class="game-info">
-                        <h3>Soru Bil</h3>
-                        <p>Genel kültür ve zeka oyunu. Binlerce soru, farklı kategoriler ve çok oyunculu yarışma modu ile bilginizi test edin ve arkadaşlarınızla rekabet edin.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+      <h1 class="logo">Kement Studios</h1>
+      <nav>
+        <ul>
+          <li><a href="#about">Hakkımızda</a></li>
+          <li><a href="#team">Ekibimiz</a></li>
+          <li><a href="#games">Oyunlarımız</a></li>
+          <li><a href="#contact">İletişim</a></li>
+        </ul>
+      </nav>
     </div>
+  </header>
 
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>İletişim Bilgileri</h3>
-                    <p>📧 info@kementstudios.com</p>
-                    <p>📱 0555 555 55 55</p>
-                    <p>📍 İstanbul, Türkiye</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Sosyal Medya</h3>
-                    <div class="social-links">
-                        <a href="#" title="Twitter">🐦</a>
-                        <a href="#" title="Instagram">📷</a>
-                        <a href="#" title="YouTube">📺</a>
-                        <a href="#" title="Discord">💬</a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h3>Hızlı Bağlantılar</h3>
-                    <p><a href="#about" style="color: rgba(255,255,255,0.8); text-decoration: none;">Hakkımızda</a></p>
-                    <p><a href="#team" style="color: rgba(255,255,255,0.8); text-decoration: none;">Ekibimiz</a></p>
-                    <p><a href="#games" style="color: rgba(255,255,255,0.8); text-decoration: none;">Oyunlarımız</a></p>
-                </div>
-            </div>
-            <p style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
-                © 2024 Kement Studios. Tüm hakları saklıdır.
-            </p>
-        </div>
-    </footer>
+  <section id="hero">
+    <h2>Hayal Gücünü Gerçeğe Dönüştürüyoruz</h2>
+    <p>Oyunlarımızla dünyaları keşfedin</p>
+  </section>
 
-    <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+  <section id="about" class="container">
+    <h2>Hakkımızda</h2>
+    <p>Kement Studios, yenilikçi ve eğlenceli oyunlar geliştiren bağımsız bir oyun stüdyosudur. Amacımız her yaşa hitap eden yaratıcı oyun deneyimleri sunmaktır.</p>
+  </section>
 
-        // Fade in animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+  <section id="team" class="container">
+    <h2>Ekibimiz</h2>
+    <div class="team-members">
+      <div class="member">
+        <img src="https://via.placeholder.com/150" alt="Team Member" />
+        <h3>Orhan Y.</h3>
+        <p>Kurucu & Oyun Tasarımcısı</p>
+      </div>
+      <div class="member">
+        <img src="https://via.placeholder.com/150" alt="Team Member" />
+        <h3>Ayşe K.</h3>
+        <p>Geliştirici</p>
+      </div>
+      <!-- Yeni ekip üyeleri buraya eklenebilir -->
+    </div>
+  </section>
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
+  <section id="games" class="container">
+    <h2>Oyunlarımız</h2>
+    <div class="games-list">
+      <div class="game">
+        <img src="https://via.placeholder.com/300x200" alt="Game 1" />
+        <h3>Climb or Burn</h3>
+        <p>Yüksel ya da yan! Platform kaçış oyunumuz şimdi yayında.</p>
+      </div>
+      <div class="game">
+        <img src="https://via.placeholder.com/300x200" alt="Game 2" />
+        <h3>Quiz Cat</h3>
+        <p>Kedilerle dolu eğlenceli bilgi yarışması oyunu.</p>
+      </div>
+    </div>
+  </section>
 
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Header background change on scroll
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 100) {
-                header.style.background = '#cc0000';
-            } else {
-                header.style.background = '#ff0000';
-            }
-        });
-
-        // Add some interactive particle effects to hero section
-        const hero = document.querySelector('.hero');
-        function createParticle() {
-            const particle = document.createElement('div');
-            particle.style.position = 'absolute';
-            particle.style.width = Math.random() * 4 + 2 + 'px';
-            particle.style.height = particle.style.width;
-            particle.style.background = 'rgba(255, 255, 255, 0.3)';
-            particle.style.borderRadius = '50%';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = '100%';
-            particle.style.pointerEvents = 'none';
-            particle.style.animation = `floatUp ${Math.random() * 3 + 2}s linear forwards`;
-            
-            hero.appendChild(particle);
-            
-            setTimeout(() => {
-                particle.remove();
-            }, 5000);
-        }
-
-        // Add CSS for particle animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes floatUp {
-                to {
-                    transform: translateY(-100vh);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Create particles periodically
-        setInterval(createParticle, 300);
-    </script>
+  <footer id="contact">
+    <div class="container">
+      <h2>İletişim</h2>
+      <p>Bize ulaşın: <a href="mailto:info@kementstudios.com">info@kementstudios.com</a></p>
+      <p>&copy; 2025 Kement Studios - Tüm hakları saklıdır.</p>
+    </div>
+  </footer>
 </body>
 </html>
